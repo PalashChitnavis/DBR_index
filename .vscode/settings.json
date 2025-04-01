@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "sstream": "cpp",
+        "iostream": "cpp",
+        "cstdint": "cpp",
+        "unordered_set": "cpp",
+        "deque": "cpp",
+        "cstdio": "cpp",
+        "utility": "cpp"
+    }
+}
