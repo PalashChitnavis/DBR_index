@@ -852,7 +852,8 @@ inline void swap(int_vector_reference<bit_vector> x,
 
 
 template<class t_int_vector>
-class int_vector_iterator_base: public std::iterator<std::random_access_iterator_tag, typename t_int_vector::value_type, typename t_int_vector::difference_type>
+class int_vector_iterator_base : public std::iterator<std::random_access_iterator_tag, typename t_int_vector::value_type
+            , typename t_int_vector::difference_type>
 {
     public:
         typedef uint64_t  size_type;

@@ -1,8 +1,8 @@
 #ifndef KMERDECODER_HPP
 #define KMERDECODER_HPP
 
-#include <kseq/kseq.h>
-#include <parallel_hashmap/phmap.h>
+#include "../lib/kseq/kseq.h"
+#include "../lib/parallel_hashmap/phmap.h"
 #include <zlib.h>
 #include <cstdint>
 #include <cstdio>

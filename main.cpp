@@ -1,20 +1,59 @@
-#include "../include/kSpider.hpp"
+#include "include/kSpider.hpp"
 #include <iostream>
 #include <cstdint>
 #include <chrono>
-#include "../lib/kProcessor/include/colored_kDataFrame.hpp"
-#include "../lib/parallel_hashmap/phmap.h"
-#include "../lib/kProcessor/include/algorithms.hpp"
+#include "./lib/kProcessor/include/colored_kDataFrame.hpp"
+#include "./lib/parallel_hashmap/phmap.h"
+#include "./lib/kProcessor/include/algorithms.hpp"
 #include <glob.h>
 #include <vector>
 #include <stdexcept>
 #include <sstream>
 #include <string>
 #include <fstream>
-#include "../lib/json/json.h"
-#include "../lib/zstr/zstr.hpp"
-#include "../lib/parallel_hashmap/phmap_dump.h"
-#include "../include/DBRetina.hpp"
+#include "./lib/json/json.h"
+#include "./lib/zstr/zstr.hpp"
+#include "./lib/parallel_hashmap/phmap_dump.h"
+#include "./include/DBRetina.hpp"
+
+
+void create_dummy_json(const std::string& filename) {
+    std::ofstream outfile(filename);
+    if (!outfile) {
+        std::cerr << "Error creating dummy JSON file" << std::endl;
+        return;
+    }
+
+    outfile << R"({
+    "group1": {
+        "kmers": [
+            123456789,
+            987654321,
+            112233445,
+            556677889
+        ]
+    },
+    "group2": {
+        "kmers": [
+            987654321,
+            112233445,
+            998877665,
+            443322110
+        ]
+    },
+    "group3": {
+        "kmers": [
+            123456789,
+            998877665,
+            135792468,
+            246813579
+        ]
+    }
+})";
+
+    outfile.close();
+    std::cout << "Created dummy JSON file: " << filename << std::endl;
+}
 
 
 void dbretina_indexing(string json_file, string user_index_prefix) {
@@ -377,5 +416,41 @@ void dbretina_indexing(string json_file, string user_index_prefix) {
 
         // ------ END Pause serializing index for now.
 
+}
+
+
+int main() {
+    // Create a dummy JSON file for testing
+    const std::string dummy_json = "dummy_data.json";
+    create_dummy_json(dummy_json);
+
+    // Output prefix for the index files
+    const std::string output_prefix = "test_index";
+
+    std::cout << "Starting dbretina indexing..." << std::endl;
+
+    try {
+        // Call the indexing function
+        dbretina_indexing(dummy_json, output_prefix);
+
+        std::cout << "\nIndexing completed successfully!" << std::endl;
+        std::cout << "Generated files with prefix: " << output_prefix << std::endl;
+
+        // List the expected output files
+        std::cout << "\nExpected output files:" << std::endl;
+        std::cout << "- " << output_prefix << "_groupID_to_featureCount.bin" << std::endl;
+        std::cout << "- " << output_prefix << "_groupID_to_featureCount.tsv" << std::endl;
+        std::cout << "- " << output_prefix << "_color_to_sources.bin" << std::endl;
+        std::cout << "- " << output_prefix << "_color_count.bin" << std::endl;
+        std::cout << "- " << output_prefix << ".namesMap" << std::endl;
+        std::cout << "- " << output_prefix << ".extra" << std::endl;
+        std::cout << "- " << output_prefix << ".frame" << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error during indexing: " << e.what() << std::endl;
+        return 1;
+    }
+
+    return 0;
 }
 

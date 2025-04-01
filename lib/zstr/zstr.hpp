@@ -12,7 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <zlib.h>
-#include <strict_fstream.hpp>
+#include "./strict_fstream.hpp"
 #include <memory>
 #include <iostream>
 

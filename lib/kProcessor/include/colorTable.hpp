@@ -1,7 +1,7 @@
 #ifndef COLORTABLE_H__
 #define COLORTABLE_H__
 #include <vector>
-#include "sdsl/vectors.hpp"
+#include "../lib/sdsl-lite/include/sdsl/vectors.hpp"
 #include <memory>
 #include "../lib/parallel_hashmap/phmap.h"
 
